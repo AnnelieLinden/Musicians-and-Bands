@@ -2,202 +2,159 @@ import Musician from "./Musician.js"
 import Band from "./Band.js"
 import promptSync from "prompt-sync"
 import fs from "fs";
+import Manager from "./manager.js";
+
+//FRÅGA KALLE!!
+// joinedBands och previosBands bör inte ligga på musician och bör således inte frågas efter vid skapande av ny artist?
+// removeMusician flyttar inte en artist till retiredMusicians (onödig ifsats i den funktionen??)
+
 
 const prompt = promptSync();
-//läsa in jsonfiler om de inte finns använd []. en [] med alla band, och en med alla musiker. spara artister som siffror automatiskt
-
-const allMusicians = [];
-const allBands = [];
-const pastMusicians = [];
 
 let meny = true;
 while (meny) {
   console.log(`
   Uppslagsverk om artister och band:
-  1. Kolla information om en artist eller band.
-  2. Lägg till eller ta bort artist.
-  3. Lägg till eller ta bort ett band.
-  4. Historik
+  1. Kolla information om en artist
+  2. Kolla information om ett band
+  3. Lägg till artist
+  4. Ta bort artist
+  5. Lägg till ett band
+  6. Ta bort ett band
+  7. Tilldela band åt musiker
+  8. Historik
 
   A. Avsluta`)
   const choices = prompt();
-  switch (choices) {
+  const manager = new Manager();
+  switch (choices.trimEnd().toUpperCase) {
 
     case '1':
-      let searchArtistOrBand = true;
-      while (searchArtistOrBand) {
-        console.log(`
-        Sök efter:
-        1. Band
-        2. Artist
-        B. Gå tillbaka till huvudmenyn`)
-        const bandOrArtist = prompt();
-        if (bandOrArtist == 1) {
-          console.log(`Skriv ett bandnamn`)
-          const userSearch = prompt();
-          let foundBands = allBands.filter(function (band) {
-            return band.bandName.includes(userSearch)
-          })
-          if (foundBands.length > 0) {
-            console.log(foundBands)
-          } else {
-            console.log("Kunde inte hitta något band.")
-          }
-        } else if (bandOrArtist == 2) {
-          console.log("Skriv ett artistnamn")
-          const userSearch = prompt();
-          let foundMusicians = allMusicians.filter(function (musician) {
-            return musician.name.includes(userSearch)
-          })
-          if (foundMusicians.length > 0) {
-            console.log(foundMusicians)
+      let searchArtistLoop = true;
+      while (searchArtistLoop) {
+        const choice = prompt(`
+        1. Sök efter Artist
 
-          } else {
-            console.log("Kunde inte hitta någon artist.")
-          }
-        } else if (bandOrArtist == "B") {
-          searchArtistOrBand = false;
+            B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          manager.searchArtist()
+        } else if (choice == "B") {
+          searchArtistLoop = false;
         } else {
-          console.log("Använd de angivna siffrorna i menyn.")
+          console.log("Du måste välja 1 eller B")
         }
       } break;
-
-
     case '2':
-      let addOrDeleteArtistLoop = true;
-      while (addOrDeleteArtistLoop) {
-        console.log(`
-        Välj:
-        1. Lägg till en artist
-        2. Ta bort en artist
-        B. Gå tillbaka till huvudmenyn`)
-        const addOrDeleteArtist = prompt();
-        if (addOrDeleteArtist == 1) {
-          const musician = createNewArtist()
-          allMusicians.push(musician)
-          fs.writeFileSync('./allMusicians.json', JSON.stringify(allMusicians, null, 2), (err) => {
-            if (err) throw err;
-            console.log('Data written to file');
-          });
-        }
-
-        else if (addOrDeleteArtist == 2) {
-          console.log("Vilken artist vill du ta bort?")
-          const artistRetirement = prompt();
-          let musicianIndex = allMusicians.findIndex(function (musician) {
-            return musician.name == userSearch
-          })// foundMusician står som [Object Object]
-          console.log("Tar bort " + allMusicians[musicianIndex] + ".")
-          pastMusicians.push(musicianIndex)
-          fs.writeFileSync('./retiredMusicians.json', JSON.stringify(pastMusicians, null, 2), (err) => {
-            if (err) throw err;
-            console.log('Data written to file');
-          });
-          /*for (i = 0; i < foundMusician.length;) {
-          }*/
-        } else if (addOrDeleteArtist == "B") {
-          addOrDeleteArtistLoop = false;
+      let searchBandLoop = true;
+      while (searchBandLoop) {
+        const choice = prompt(`
+        1. Sök efter ett band
+        
+        B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          manager.searchBand()
+        } else if (choice == "B") {
+          searchBandLoop = false;
         } else {
-          console.log("Använd de angivna siffrorna i menyn.")
+          console.log("Du måste välja 1 eller B")
         }
       } break;
-
 
     case '3':
-      let addOrDeleteBandLoop = true;
-      while (addOrDeleteBandLoop) {
-        console.log(`
-        Välj:
-        1. Lägg till ett band
-        2. Ta bort ett band
-        B. Gå tillbaka till huvudmenyn`)
-        const addOrDeleteBand = prompt();
-        if (addOrDeleteBand == 1) {
-          const band = createNewBand()
-          allBands.push(band)
-          fs.writeFileSync('./allBands.json', JSON.stringify(allBands, null, 2), (err) => {
-            if (err) throw err;
-            console.log('Data written to file');
-          });
-          addOrDeleteBandLoop = false;
-
-        } else if (addOrDeleteBand == 2) {
-          console.log("Vilket band vill du ta bort?")
-          const userSearch = prompt();
-          let foundBand = allBands.find(function (band) {
-            return band.bandName == userSearch
-          })
-          //foundBand står som [Object Object]
-          console.log("Tar bort " + foundBand + ".")
-
-          pastMusicians.push(foundBand)
-          /*for (i = 0; i < foundBand.length;) {
-
-          }*/
-          addOrDeleteBandLoop = false;
-        } else if (addOrDeleteBand == "B") {
-          addOrDeleteBandLoop = false;
+      let newArtistLoop = true;
+      while (newArtistLoop) {
+        const choice = prompt(`
+        1. Lägg till en artist 
+        
+        B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          manager.createNewArtist()
+        } else if (choice == "B") {
+          newArtistLoop = false;
         } else {
-          console.log("Använd de angivna siffrorna i menyn.")
+          console.log("Du måste välja 1 eller B")
         }
       } break;
-
-
     case '4':
-      console.log(`Historik:`)
-      console.log(pastMusicians)
-      break;
-
-
-    case 'A':
-      console.log(`Avslutar`)
-      meny = false;
-      break;
-
-    default:
-      console.log(`Använd de angivna siffrorna i menyn.`)
+      let removeArtistLoop = true;
+      while (removeArtistLoop) {
+        const choice = prompt(`
+        1.Ta bort en artist (Artisten kommer synas under menyvalet historik)
+        
+        B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          manager.removeMusician()
+        } else if (choice == "B") {
+          removeArtistLoop = false;
+        } else {
+          console.log("Du måste välja 1 eller B")
+        }
+      } break;
+    case '5':
+      let newBandLoop = true;
+      while (newBandLoop) {
+        const choice = prompt(`
+        1. Lägg till ett band
+        
+        B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          manager.createNewBand()
+        } else if (choice == "B") {
+          newBandLoop = false;
+        } else {
+          console.log("Du måste välja 1 eller B")
+        }
+      } break;
+    case '6':
+      let removeBandLoop = true;
+      while (removeBandLoop) {
+        const choice = prompt(`
+        1. Ta bort ett band (Bandet kommer synas under menyvalet historik)
+        
+        B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          manager.removeBand()
+        } else if (choice == "B") {
+          removeBandLoop = false;
+        } else {
+          console.log("Du måste välja 1 eller B")
+        }
+      } break;
+    case '7':
+      let addMusicianToBandLoop = true;
+      while (addMusicianToBandLoop) {
+        const choice = prompt(`
+        1. Lägg till en artist (Artisten flyttas historik)
+        
+        B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          //manager.()
+        } else if (choice == "B") {
+          addMusicianToBandLoop = false;
+        } else {
+          console.log("Du måste välja 1 eller B")
+        }
+      } break;
+    case '8':
+      let retiredLoop = true;
+      while (retiredLoop) {
+        const choice = prompt(`
+        1. Kolla infromation om forna band
+        2. Kolla information om forna artister
+        
+        B. Gå tillbaka till huvudmenyn`);
+        if (choice == 1) {
+          manager.printRetiredBands()
+        } else if (choice == 2) {
+          manager.printRetiredMusicians
+        } else if (choice == "B") {
+          retiredLoop = false;
+        } else {
+          console.log("Du måste välja 1 eller B")
+        }
+      } break; 
   }
 }
-function createNewArtist() {
-  const newId = allMusicians.length + 1
-  console.log("Skriv namnet på den nya artisten.")
-  const newArtistName = prompt();
-  console.log("Skriv lite information om artisten.")
-  const newArtistInfo = prompt();
-  console.log("När är artisten född?")
-  const addArtistBirthday = prompt();
-  console.log("Vilket eller vilka band tillhör den här artisten?")
-  const addJoinedBands = prompt();
-  console.log("Vilka band har den här artisten tillhört förut?")
-  const addPastBands = prompt();
-  console.log("Vilken roll har artisten i bandet?")
-  const instrumentsPlayed = prompt();
-  console.log("Ny artist sparad i registret.")
-  return new Musician(newId, newArtistName, newArtistInfo, addArtistBirthday, addJoinedBands, addPastBands, instrumentsPlayed)
-}
-function createNewBand() {
-  console.log("Skriv namnet på bandet")
-  const newBandName = prompt();
-  console.log("Skriv lite information om bandet.")
-  const newBandInfo = prompt();
-  console.log("Vilket år grundades bandet?")
-  const founded = prompt();
-  console.log("Vilket år splittrades bandet?")
-  const disolved = prompt();
-  console.log("Vilka artiser är med i detta bandet nu?")
-  const current = prompt();
-  console.log("Vilka artiser har varit med i detta bandet tidigare?")
-  const previous = prompt();
-  console.log("Nytt band sparat i registret.")
-  return new Band(newBandName, newBandInfo, founded, disolved, current, previous)
-
-}
 
 
-
-
-
-console.log(``)
-console.log(``)
-console.log(``)
-console.log(``)
+    

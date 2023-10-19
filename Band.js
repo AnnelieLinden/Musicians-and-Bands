@@ -11,20 +11,6 @@ export default class Band{
     this.foundedYear = founded;
     this.disolvedYear = disolved;
   }
-  allBandInfo(){
 
-  }
-  newBand() {
-    
-  }
-  deleteBand() {
-    
-  }
-  newMember() {
-    
-  }
-  deleteMember() {
-    
-  }
 
 } 
