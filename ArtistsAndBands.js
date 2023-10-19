@@ -3,7 +3,7 @@ import Band from "./Band.js"
 import promptSync from "prompt-sync"
 import fs from "fs";
 import Manager from "./manager.js";
-import { log } from "console";
+
 
 
 
@@ -138,16 +138,17 @@ while (meny) {
         }
       }
       break;
+    //EJ KLAR
     case '7':
       let addMusicianToBandLoop = true;
       while (addMusicianToBandLoop) {
         console.log(`
-        1. Lägg till en artist (Artisten flyttas historik)
+        1. Lägg till en artist i ett band
         
         B. Gå tillbaka till huvudmenyn`);
         const choice = prompt()
         if (choice == 1) {
-          //manager.()
+          manager.addArtistToBand()
         } else if (choice.toUpperCase() == "B") {
           addMusicianToBandLoop = false;
           break;

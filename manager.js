@@ -31,7 +31,9 @@ export default class Manager {
     console.log("Vilka instrument spelar denna artisten?")
     const instrumentsPlayed = prompt();
     console.log("Ny artist sparad i registret.")
-    this.update()
+    const musician = new Musician(newId, newArtistName, newArtistInfo, addArtistBirthday, instrumentsPlayed)
+    allMusicians.push(musician)
+    this.updateallMusicians()
     return new Musician(newId, newArtistName, newArtistInfo, addArtistBirthday, instrumentsPlayed)
   }
   createNewBand() {
@@ -44,9 +46,12 @@ export default class Manager {
     console.log("Vilket år splittrades bandet?")
     const disolved = prompt();
     console.log("Nytt band sparat i registret.")
-    this.update()
+    const band = new Band(newBandName, newBandInfo, founded, disolved)
+    allBands.push(band)
+    this.updateAllBands()
     return new Band(newBandName, newBandInfo, founded, disolved)
   }
+
   printAllMusicians() {
     for (let i = 0; i < allMusicians.length; i++) {
       console.log(`${i + 1}. ${allMusicians[i].name}`);
@@ -67,7 +72,8 @@ export default class Manager {
     if (index <= allBands.length && index >= 1) {
       allBands.removeBand(Number(index) - 1);
       allBands.splice(index, 1)
-      this.update
+      this.updateAllBands()
+      this.updateRetiredBands()
     } else {
       console.log(`Skriv den angivna siffran för att ta bort önskad artist.`);
     }
@@ -83,7 +89,10 @@ export default class Manager {
     if (index <= allMusicians.length && index >= 1) {
       retiredMusicians.push(allMusicians[i])
       allMusicians.splice(index, 1)
-      this.update()
+      this.updateallMusicians()
+      this.updateAllBands
+      this.updateRetiredBands
+      this.updateRetiredMusicians
     } else {
       console.log(`Försök igen.`);
     }
@@ -104,7 +113,7 @@ export default class Manager {
       joinedYear: joinedYear,
       instrument: instrument
     })
-    this.update()
+    this.updateallMusicians()
   }
   searchArtist() {
     console.log("Skriv ett artistnamn")
@@ -130,19 +139,48 @@ export default class Manager {
       console.log("Kunde inte hitta något band")
     }
   }
-  update() {
+  addArtistToBand() {
+    this.printAllMusicians()
+    console.log("Skriv in siffran för artisten du vill lägga till i ett band");
+    const indexArtist = prompt();
+    if (isNaN(Number(indexArtist))) {
+      console.log("Skriv den angivna siffran.");
+    }
+    this.printAllBands()
+    console.log("Skriv in siffran för bandet du vill lägga till artisten i");
+    const indexBand = prompt();
+    if (isNaN(Number(indexBand))) {
+      console.log("Skriv den angivna siffran.");
+    }
+    if (indexArtist == 1) {
+      if (indexBand == 1) {
+        //allBands.indexBand.currentMembers.push(indexArtist) ????
+        this.updateAllBands()
+        this.updateallMusicians
+      }
+    } else {
+      console.log(`Skriv den angivna siffran.`);
+    }
+  }
+  updateAllBands() {
     fs.writeFileSync('./allBands.json', JSON.stringify(allBands, null, 2), (err) => {
       if (err) throw err;
       console.log('Sparar ny information');
     });
+  }
+  updateallMusicians() {
     fs.writeFileSync('./allMusicians.json', JSON.stringify(allMusicians, null, 2), (err) => {
       if (err) throw err;
       console.log('Sparar ny information');
     });
+  }
+  updateRetiredMusicians() {
     fs.writeFileSync('./retiredMusicians.json', JSON.stringify(retiredMusicians, null, 2), (err) => {
       if (err) throw err;
       console.log('Sparar ny information');
     });
+  }
+  updateRetiredBands() {
     fs.writeFileSync('./retiredBands.json', JSON.stringify(retiredBands, null, 2), (err) => {
       if (err) throw err;
       console.log('Sparar ny information');
