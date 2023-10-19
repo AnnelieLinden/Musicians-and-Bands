@@ -3,10 +3,8 @@ import Band from "./Band.js"
 import promptSync from "prompt-sync"
 import fs from "fs";
 import Manager from "./manager.js";
+import { log } from "console";
 
-//FRÅGA KALLE!!
-// joinedBands och previosBands bör inte ligga på musician och bör således inte frågas efter vid skapande av ny artist?
-// removeMusician flyttar inte en artist till retiredMusicians (onödig ifsats i den funktionen??)
 
 
 const prompt = promptSync();
@@ -17,142 +15,174 @@ while (meny) {
   Uppslagsverk om artister och band:
   1. Kolla information om en artist
   2. Kolla information om ett band
+  _________________________________________
   3. Lägg till artist
   4. Ta bort artist
+  _________________________________________
   5. Lägg till ett band
   6. Ta bort ett band
+  _________________________________________
   7. Tilldela band åt musiker
   8. Historik
-
+  _________________________________________
   A. Avsluta`)
   const choices = prompt();
   const manager = new Manager();
-  switch (choices.trimEnd().toUpperCase) {
+  switch (choices.toUpperCase()) {
 
     case '1':
       let searchArtistLoop = true;
       while (searchArtistLoop) {
-        const choice = prompt(`
+        console.log(`
         1. Sök efter Artist
 
-            B. Gå tillbaka till huvudmenyn`);
+        B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt()
         if (choice == 1) {
           manager.searchArtist()
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           searchArtistLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break;
+      }
+      break; 
     case '2':
       let searchBandLoop = true;
       while (searchBandLoop) {
-        const choice = prompt(`
+        console.log(`
         1. Sök efter ett band
         
         B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt();
         if (choice == 1) {
           manager.searchBand()
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           searchBandLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break;
-
+      }
+      break;
     case '3':
       let newArtistLoop = true;
       while (newArtistLoop) {
-        const choice = prompt(`
+       console.log(`
         1. Lägg till en artist 
         
         B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt();
         if (choice == 1) {
           manager.createNewArtist()
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           newArtistLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break;
+      }
+      break;
     case '4':
       let removeArtistLoop = true;
       while (removeArtistLoop) {
-        const choice = prompt(`
-        1.Ta bort en artist (Artisten kommer synas under menyvalet historik)
+        console.log(`
+        1. Ta bort en artist (Artisten kommer synas under menyvalet historik)
         
         B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt()
         if (choice == 1) {
           manager.removeMusician()
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           removeArtistLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break;
+      }
+      break;
     case '5':
       let newBandLoop = true;
       while (newBandLoop) {
-        const choice = prompt(`
+       console.log(`
         1. Lägg till ett band
         
         B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt()
         if (choice == 1) {
           manager.createNewBand()
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           newBandLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break;
+      }
+      break;
     case '6':
       let removeBandLoop = true;
       while (removeBandLoop) {
-        const choice = prompt(`
+        console.log(`
         1. Ta bort ett band (Bandet kommer synas under menyvalet historik)
         
         B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt()
         if (choice == 1) {
           manager.removeBand()
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           removeBandLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break;
+      }
+      break;
     case '7':
       let addMusicianToBandLoop = true;
       while (addMusicianToBandLoop) {
-        const choice = prompt(`
+        console.log(`
         1. Lägg till en artist (Artisten flyttas historik)
         
         B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt()
         if (choice == 1) {
           //manager.()
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           addMusicianToBandLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break;
+      }
+      break;
     case '8':
       let retiredLoop = true;
       while (retiredLoop) {
-        const choice = prompt(`
+        console.log(`
         1. Kolla infromation om forna band
         2. Kolla information om forna artister
         
         B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt()
         if (choice == 1) {
           manager.printRetiredBands()
         } else if (choice == 2) {
           manager.printRetiredMusicians
-        } else if (choice == "B") {
+        } else if (choice.toUpperCase() == "B") {
           retiredLoop = false;
+          break;
         } else {
           console.log("Du måste välja 1 eller B")
         }
-      } break; 
+      }
+      break;
+    case 'A':
+      console.log("Avslutar")
+      meny = false;
+      break;
+    default:
+      console.log(`Du måste använda de angivna siffrorna i menyn.`)
   }
 }
 
