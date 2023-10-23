@@ -4,7 +4,7 @@ export default class Band{
   foundedYear;
   disolvedYear;
   currentMembers=[]
-  previusMembers=[]
+  previousMembers=[]
   constructor(newBandName, newBandInfo, founded, disolved) {
     this.bandName = newBandName;
     this.bandInfo = newBandInfo;

@@ -3,10 +3,6 @@ import Band from "./Band.js"
 import promptSync from "prompt-sync"
 import fs from "fs";
 import Manager from "./manager.js";
-
-
-
-
 const prompt = promptSync();
 
 let meny = true;
@@ -22,14 +18,14 @@ while (meny) {
   5. Lägg till ett band
   6. Ta bort ett band
   _________________________________________
-  7. Tilldela band åt musiker
+  7. Tilldela band och artister
   8. Ta bort en artist från ett band
   9. Historik
   _________________________________________
   A. Avsluta`)
   const choices = prompt();
   const manager = new Manager();
-  switch (choices.toUpperCase()) {
+  switch (choices.toUpperCase().trim()) {
 
     case '1':
       let searchArtistLoop = true;
@@ -40,7 +36,8 @@ while (meny) {
         B. Gå tillbaka till huvudmenyn`);
         const choice = prompt()
         if (choice == 1) {
-          manager.searchArtist()
+          manager.showMusicianInfo()
+         // manager.searchArtist()
         } else if (choice.toUpperCase() == "B") {
           searchArtistLoop = false;
           break;
@@ -58,7 +55,8 @@ while (meny) {
         B. Gå tillbaka till huvudmenyn`);
         const choice = prompt();
         if (choice == 1) {
-          manager.searchBand()
+          manager.showBandInfo()
+          //manager.searchBand()
         } else if (choice.toUpperCase() == "B") {
           searchBandLoop = false;
           break;
@@ -139,7 +137,6 @@ while (meny) {
         }
       }
       break;
-    //EJ KLAR
     case '7':
       let addMusicianToBandLoop = true;
       while (addMusicianToBandLoop) {
@@ -205,6 +202,3 @@ while (meny) {
       console.log(`Du måste använda de angivna siffrorna i menyn.`)
   }
 }
-
-
-    

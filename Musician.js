@@ -10,6 +10,5 @@ export default class Musician {
     this.info = newArtistInfo
     this.birthday = addArtistBirthday
     this.instruments = instrumentsPlayed
-
   }
 }

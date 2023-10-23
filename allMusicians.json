@@ -1,24 +1,36 @@
 [
   {
-    "name": "ww",
-    "info": "",
-    "birthday": "",
-    "instruments": "",
+    "name": "Anna",
+    "info": "uddevalla",
+    "birthday": "1990",
+    "instruments": "piano",
     "joinedBands": [],
+    "pastBands": [
+      {
+        "Bandnamn": "gurka",
+        "Leftband": "2011",
+        "Instrument": "piano"
+      }
+    ]
+  },
+  {
+    "name": "Hans",
+    "info": "lund",
+    "birthday": "1991",
+    "instruments": "bas",
+    "joinedBands": [
+      {
+        "Name": "gurka",
+        "Since": "2010",
+        "Instrument": "bas"
+      }
+    ],
     "pastBands": []
   },
   {
-    "name": "sss",
+    "name": "fia",
     "info": "",
-    "birthday": "",
-    "instruments": "",
-    "joinedBands": [],
-    "pastBands": []
-  },
-  {
-    "name": "sven",
-    "info": "",
-    "birthday": "",
+    "birthday": "2000-01-01",
     "instruments": "",
     "joinedBands": [],
     "pastBands": []

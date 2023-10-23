@@ -1,10 +1,22 @@
 [
   {
-    "bandName": "frost",
-    "bandInfo": "",
-    "foundedYear": "",
+    "bandName": "gurka",
+    "bandInfo": "dansband",
+    "foundedYear": "2010",
     "disolvedYear": "",
-    "currentMembers": [],
-    "previusMembers": []
+    "currentMembers": [
+      {
+        "Name": "Hans",
+        "Since": "2010",
+        "Instrument": "bas"
+      }
+    ],
+    "previousMembers": [
+      {
+        "Namn": "Anna",
+        "Leftband": "2011",
+        "Instrument": "piano"
+      }
+    ]
   }
 ]
