@@ -1,18 +1,15 @@
 export default class Musician {
-  id;
   name;
   info;
   birthday;
-  joinedBands;
-  pastBands;
   instruments;
-  constructor(newId, newArtistName, newArtistInfo, addArtistBirthday, addJoinedBands, addPastBands, instrumentsPlayed) {
-    this.id = newId
+  joinedBands = []
+  pastBands = []
+  constructor(newArtistName, newArtistInfo, addArtistBirthday, instrumentsPlayed) {
     this.name = newArtistName
     this.info = newArtistInfo
     this.birthday = addArtistBirthday
-    this.joinedBands = addJoinedBands
-    this.pastBands = addPastBands
     this.instruments = instrumentsPlayed
+
   }
 }

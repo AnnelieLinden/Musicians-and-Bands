@@ -11,6 +11,4 @@ export default class Band{
     this.foundedYear = founded;
     this.disolvedYear = disolved;
   }
-
-
 } 

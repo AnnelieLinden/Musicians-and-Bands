@@ -1,9 +1,26 @@
 [
   {
-    "id": 1,
-    "name": "aaaa",
+    "name": "ww",
     "info": "",
     "birthday": "",
-    "joinedBands": ""
+    "instruments": "",
+    "joinedBands": [],
+    "pastBands": []
+  },
+  {
+    "name": "sss",
+    "info": "",
+    "birthday": "",
+    "instruments": "",
+    "joinedBands": [],
+    "pastBands": []
+  },
+  {
+    "name": "sven",
+    "info": "",
+    "birthday": "",
+    "instruments": "",
+    "joinedBands": [],
+    "pastBands": []
   }
 ]

@@ -23,7 +23,8 @@ while (meny) {
   6. Ta bort ett band
   _________________________________________
   7. Tilldela band åt musiker
-  8. Historik
+  8. Ta bort en artist från ett band
+  9. Historik
   _________________________________________
   A. Avsluta`)
   const choices = prompt();
@@ -53,7 +54,7 @@ while (meny) {
       while (searchBandLoop) {
         console.log(`
         1. Sök efter ett band
-        
+      
         B. Gå tillbaka till huvudmenyn`);
         const choice = prompt();
         if (choice == 1) {
@@ -158,6 +159,24 @@ while (meny) {
       }
       break;
     case '8':
+      let removeFromBandLoop = true;
+      while (removeFromBandLoop) {
+        console.log(`
+        1. Ta bort en artist från ett band
+        
+        B. Gå tillbaka till huvudmenyn`);
+        const choice = prompt()
+        if (choice == 1) {
+          manager.removeArtistFromBand()
+        } else if (choice.toUpperCase() == "B") {
+          removeFromBandLoop = false;
+          break;
+        } else {
+          console.log("Du måste välja 1 eller B")
+        }
+      }
+      break;
+    case '9':
       let retiredLoop = true;
       while (retiredLoop) {
         console.log(`
@@ -169,7 +188,7 @@ while (meny) {
         if (choice == 1) {
           manager.printRetiredBands()
         } else if (choice == 2) {
-          manager.printRetiredMusicians
+          manager.printRetiredMusicians()
         } else if (choice.toUpperCase() == "B") {
           retiredLoop = false;
           break;
