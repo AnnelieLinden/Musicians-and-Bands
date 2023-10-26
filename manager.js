@@ -3,6 +3,8 @@ import promptSync from "prompt-sync"
 import Musician from "./Musician.js"
 import Band from "./Band.js"
 import { inspect } from 'util'
+import { DateTime } from "luxon";
+
 
 const prompt = promptSync();
 const jsonStringBands = fs.readFileSync("allBands.json");
@@ -14,7 +16,6 @@ const retiredBands = JSON.parse(jsonStringRetiredBands);
 const jsonStringRetiredMusicians = fs.readFileSync("retiredMusicians.json");
 const retiredMusicians = JSON.parse(jsonStringRetiredMusicians);
 
-
 export default class Manager {
   bands = []
   musicians = []
@@ -23,20 +24,20 @@ export default class Manager {
     this.musicians = allMusicians;
   }//klar
   createNewArtist() {
-    //const newId = allMusicians.length + 1
     console.log("Skriv namnet på den nya artisten.")
     const newArtistName = prompt();
     console.log("Skriv lite information om artisten.")
     const newArtistInfo = prompt();
-    console.log("När är artisten född?")
+    console.log("När är artisten född? Använd formatet åååå-mm-dd.")
     const addArtistBirthday = prompt();
+    const artistBirthdayIso = DateTime.fromISO(addArtistBirthday).toISO()
     console.log("Vilka instrument spelar denna artisten?")
     const instrumentsPlayed = prompt();
     console.log("Ny artist sparad i registret.")
-    const musician = new Musician(newArtistName, newArtistInfo, addArtistBirthday, instrumentsPlayed)
+    const musician = new Musician(newArtistName, newArtistInfo, artistBirthdayIso, instrumentsPlayed)
     allMusicians.push(musician)
     this.updateAllMusicians()
-    return new Musician(newArtistName, newArtistInfo, addArtistBirthday, instrumentsPlayed)
+    return new Musician(newArtistName, newArtistInfo, artistBirthdayIso, instrumentsPlayed)
   }//klar
   createNewBand() {
     console.log("Skriv namnet på bandet")
@@ -45,13 +46,11 @@ export default class Manager {
     const newBandInfo = prompt();
     console.log("Vilket år grundades bandet?")
     const founded = prompt();
-    console.log("Vilket år splittrades bandet?")
-    const disolved = prompt();
     console.log("Nytt band sparat i registret.")
-    const band = new Band(newBandName, newBandInfo, founded, disolved)
+    const band = new Band(newBandName, newBandInfo, founded)
     this.bands.push(band)
     this.updateAllBands()
-    return new Band(newBandName, newBandInfo, founded, disolved)
+    return new Band(newBandName, newBandInfo, founded)
   }//klar
   printAllMusicians() {
     for (let i = 0; i < allMusicians.length; i++) {
@@ -62,19 +61,16 @@ export default class Manager {
     for (let i = 0; i < allBands.length; i++) {
       console.log(`${i}. ${allBands[i].bandName}`);
     }
-  }
-  artistAge() {
-    const currentDate = parseInt(Date().substring(11, 16).trim())
-    const age = currentDate - Musician.birthday
-    return age
   }//klar
   showMusicianInfo() {
     this.printAllMusicians()
     console.log(`Skriv in siffran som står framför önskad artist.`)
     const indexArtist = prompt();
     const artist = this.musicians[indexArtist]
-    this.artistAge(artist)
-    console.log(inspect(artist, age, { depth: 3 }))
+    const birthday = DateTime.fromISO(artist.birthday)
+    const age = birthday.diff(DateTime.now(), "year")
+    console.log(inspect(artist, { depth: 3 }))
+    console.log(Math.abs(age.years.toFixed(0)))
   }//klar
   showBandInfo() {
     this.printAllBands()
@@ -85,13 +81,18 @@ export default class Manager {
   }//klar
   removeBand() {
     this.printAllBands();
+
     console.log("Skriv in siffran för bandet du vill ta bort");
     const index = prompt();
     if (isNaN(Number(index))) {
-      console.log("Skriv den angivna siffran för att ta bort önskad artist.");
+      console.log("Skriv den angivna siffran för att ta bort önskat band.");
     }
     if (index <= this.bands.length) {
-      retiredBands.push(allBands[index])
+      console.log("Vilket år splittrades eller pensionerades bandet?")
+      const disolved = prompt();
+      const band = this.bands[index]
+      band.disolvedYear = disolved;
+      retiredBands.push(band)
       this.bands.splice(index, 1)
       this.updateAllBands()
       this.updateRetiredBands()

@@ -2,13 +2,13 @@ export default class Musician {
   name;
   info;
   birthday;
-  instruments;
+  instruments = []
   joinedBands = []
   pastBands = []
-  constructor(newArtistName, newArtistInfo, addArtistBirthday, instrumentsPlayed) {
+  constructor(newArtistName, newArtistInfo, artistBirthdayIso, instrumentsPlayed) {
     this.name = newArtistName
     this.info = newArtistInfo
-    this.birthday = addArtistBirthday
+    this.birthday = artistBirthdayIso
     this.instruments = instrumentsPlayed
   }
 }

@@ -18,8 +18,8 @@ while (meny) {
   5. Lägg till ett band
   6. Ta bort ett band
   _________________________________________
-  7. Tilldela band och artister
-  8. Ta bort en artist från ett band
+  7. Tilldela band och medlemmar
+  8. Ta bort medlem från band
   9. Historik
   _________________________________________
   A. Avsluta`)
@@ -141,7 +141,7 @@ while (meny) {
       let addMusicianToBandLoop = true;
       while (addMusicianToBandLoop) {
         console.log(`
-        1. Lägg till en artist i ett band
+        1. Lägg till en artist i ett band (Både artist och band uppdateras)
         
         B. Gå tillbaka till huvudmenyn`);
         const choice = prompt()
@@ -159,7 +159,7 @@ while (meny) {
       let removeFromBandLoop = true;
       while (removeFromBandLoop) {
         console.log(`
-        1. Ta bort en artist från ett band
+        1. Ta bort en artist från ett band (Både artist och band uppdateras)
         
         B. Gå tillbaka till huvudmenyn`);
         const choice = prompt()

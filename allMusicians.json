@@ -34,5 +34,37 @@
     "instruments": "",
     "joinedBands": [],
     "pastBands": []
+  },
+  {
+    "name": "Thea",
+    "info": "sundsvall",
+    "birthday": "1999-01-01",
+    "instruments": "fiol, trummor, triangel",
+    "joinedBands": [],
+    "pastBands": []
+  },
+  {
+    "name": "Maja",
+    "info": "tingsryd",
+    "birthday": "1990-05-07",
+    "instruments": "trombon",
+    "joinedBands": [],
+    "pastBands": []
+  },
+  {
+    "name": "Gunnar",
+    "info": "Lund",
+    "birthday": "1998-03-05T00:00:00.000+01:00",
+    "instruments": "triangel",
+    "joinedBands": [],
+    "pastBands": []
+  },
+  {
+    "name": "  gunnar",
+    "info": "",
+    "birthday": null,
+    "instruments": "",
+    "joinedBands": [],
+    "pastBands": []
   }
 ]
