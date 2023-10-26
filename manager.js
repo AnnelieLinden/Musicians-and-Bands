@@ -22,7 +22,7 @@ export default class Manager {
   constructor() {
     this.bands = allBands;
     this.musicians = allMusicians;
-  }//visar fel antal år. en person född 1990 är INTE 34 ÅR!! 
+  }
   createNewArtist() {
     console.log("Skriv namnet på den nya artisten.")
     const newArtistName = prompt();
@@ -77,10 +77,11 @@ export default class Manager {
     const artist = this.musicians[indexArtist]
     const birthday = DateTime.fromISO(artist.birthday)
     const age = birthday.diff(DateTime.now(), "year")
+
     console.log(`
     Artistens namn: ${artist.name}, 
     Info om artistens : ${artist.info}, 
-    Födeledag: ${artist.birthday}, ${(Math.abs(age.years.toFixed(0)))} år gammal.
+    Födeledag: ${artist.birthday}, ${(Math.abs(parseInt(age.years)))} år gammal.
     Spelar följande instrument: ${artist.instruments}`); 
     console.log(`
     Aktiva band: ` + (inspect(artist.joinedBands, { depth: 3 }))) 
@@ -101,7 +102,7 @@ export default class Manager {
     Aktiva medlemmar: ` + (inspect(band.currentMembers, { depth: 3 })))
     console.log(`
     Tidigare medlemmar: ` + (inspect(band.previousMembers, { depth: 3 })))
-  }//Hur flyttar jag medlemmarnas status joinedBands till pastBands?
+  }
   removeBand() {
     this.printAllBands();
 
@@ -125,7 +126,7 @@ export default class Manager {
     } else {
       console.log(`Skriv den angivna siffran för att ta bort önskat band.`);
     }
-  }//Hur flyttar jag bandens status currentMembers till previousMembers?
+  }
   removeMusician() {
     this.printAllMusicians();
     console.log("Skriv in siffran för artisten du vill ta bort");
@@ -138,8 +139,6 @@ export default class Manager {
       console.log("Artist nr " + index + " har avslutat sin artistkarriär.")
       const artist = this.musicians[index]
 
-      artist.pastBands = joinedBands;
-      artist.joinedBands = [];
 
       retiredMusicians.push(allMusicians[index])
       allMusicians.splice(index, 1)

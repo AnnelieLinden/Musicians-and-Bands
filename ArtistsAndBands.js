@@ -37,7 +37,6 @@ while (meny) {
         const choice = prompt()
         if (choice == 1) {
           manager.showMusicianInfo()
-         // manager.searchArtist()
         } else if (choice.toUpperCase() == "B") {
           searchArtistLoop = false;
           break;
