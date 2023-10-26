@@ -13,10 +13,10 @@ while (meny) {
   2. Kolla information om ett band
   _________________________________________
   3. Lägg till artist
-  4. Pensionera en artist
+  4. Pensionera en artist (Om artisten är med i ett band, gör menyval 8 först)
   _________________________________________
   5. Lägg till ett band
-  6. Splittra eller pensionera ett band
+  6. Splittra eller pensionera ett band (Gör menyval 8 först)
   _________________________________________
   7. Lägg till medlemmar i band
   8. Ta bort medlem från band
@@ -86,6 +86,7 @@ while (meny) {
       let removeArtistLoop = true;
       while (removeArtistLoop) {
         console.log(`
+        Om artisten är med i ett band, välj menyval 8 först och plocka bort artisten ur bandet. 
         1. Ta bort en artist (Artisten kommer synas under menyvalet historik)
         
         B. Gå tillbaka till huvudmenyn`);
@@ -122,6 +123,7 @@ while (meny) {
       let removeBandLoop = true;
       while (removeBandLoop) {
         console.log(`
+        Välj menyval 8 och plocka bort alla bandets medlemmar innan du gör detta. 
         1. Ta bort ett band (Bandet kommer synas under menyvalet historik)
         
         B. Gå tillbaka till huvudmenyn`);
