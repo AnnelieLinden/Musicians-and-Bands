@@ -1,70 +1,41 @@
 [
   {
-    "name": "Anna",
-    "info": "uddevalla",
-    "birthday": "1990",
-    "instruments": "piano",
+    "name": "Rebecka",
+    "info": "kjs",
+    "birthday": "1989-01-01",
+    "instruments": "fiol",
     "joinedBands": [],
     "pastBands": [
       {
+        "Bandnamn": "Tyresson",
+        "Leftband": "2009",
+        "Instrument": "fiol"
+      },
+      {
         "Bandnamn": "gurka",
-        "Leftband": "2011",
-        "Instrument": "piano"
+        "Leftband": "2007",
+        "Instrument": "bas"
       }
     ]
   },
   {
     "name": "Hans",
-    "info": "lund",
-    "birthday": "1991",
+    "info": "lkn",
+    "birthday": "1990-05-03",
     "instruments": "bas",
     "joinedBands": [
       {
         "Name": "gurka",
-        "Since": "2010",
+        "Since": "2005",
         "Instrument": "bas"
       }
     ],
-    "pastBands": []
-  },
-  {
-    "name": "fia",
-    "info": "",
-    "birthday": "2000-01-01",
-    "instruments": "",
-    "joinedBands": [],
-    "pastBands": []
-  },
-  {
-    "name": "Thea",
-    "info": "sundsvall",
-    "birthday": "1999-01-01",
-    "instruments": "fiol, trummor, triangel",
-    "joinedBands": [],
-    "pastBands": []
-  },
-  {
-    "name": "Maja",
-    "info": "tingsryd",
-    "birthday": "1990-05-07",
-    "instruments": "trombon",
-    "joinedBands": [],
-    "pastBands": []
-  },
-  {
-    "name": "Gunnar",
-    "info": "Lund",
-    "birthday": "1998-03-05T00:00:00.000+01:00",
-    "instruments": "triangel",
-    "joinedBands": [],
-    "pastBands": []
-  },
-  {
-    "name": "  gunnar",
-    "info": "",
-    "birthday": null,
-    "instruments": "",
-    "joinedBands": [],
-    "pastBands": []
+    "pastBands": [
+      {
+        "Bandnamn": "Tyresson",
+        "Leftband": "2010",
+        "Instrument": "bas"
+      }
+    ]
   }
 ]

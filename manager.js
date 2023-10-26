@@ -22,23 +22,31 @@ export default class Manager {
   constructor() {
     this.bands = allBands;
     this.musicians = allMusicians;
-  }//klar
+  }//visar fel antal år. en person född 1990 är INTE 34 ÅR!! 
   createNewArtist() {
     console.log("Skriv namnet på den nya artisten.")
     const newArtistName = prompt();
     console.log("Skriv lite information om artisten.")
     const newArtistInfo = prompt();
-    console.log("När är artisten född? Använd formatet åååå-mm-dd.")
-    const addArtistBirthday = prompt();
-    const artistBirthdayIso = DateTime.fromISO(addArtistBirthday).toISO()
-    console.log("Vilka instrument spelar denna artisten?")
-    const instrumentsPlayed = prompt();
-    console.log("Ny artist sparad i registret.")
-    const musician = new Musician(newArtistName, newArtistInfo, artistBirthdayIso, instrumentsPlayed)
-    allMusicians.push(musician)
-    this.updateAllMusicians()
-    return new Musician(newArtistName, newArtistInfo, artistBirthdayIso, instrumentsPlayed)
-  }//klar
+    let askBirthday = true;
+    while (askBirthday) {
+      console.log("När är artisten född? Använd formatet åååå-mm-dd.")
+      const addArtistBirthday = prompt();
+      const artistBirthdayIso = DateTime.fromISO(addArtistBirthday.trim())
+      if (artistBirthdayIso.isValid) {
+        askBirthday = false;
+        console.log("Vilka instrument spelar denna artisten?")
+        const instrumentsPlayed = prompt();
+        console.log("Ny artist sparad i registret.")
+        const musician = new Musician(newArtistName, newArtistInfo, artistBirthdayIso.toISODate(), instrumentsPlayed)
+        allMusicians.push(musician)
+        this.updateAllMusicians()
+        return new Musician(newArtistName, newArtistInfo, artistBirthdayIso, instrumentsPlayed)
+      } else {
+        console.log("För att kunna räkna ut en ålder behöver vi artistens födelsedag. Använd formatet åååå-mm-dd. Glöm inte bindestrecken.")
+      }
+    }
+  }
   createNewBand() {
     console.log("Skriv namnet på bandet")
     const newBandName = prompt();
@@ -51,17 +59,17 @@ export default class Manager {
     this.bands.push(band)
     this.updateAllBands()
     return new Band(newBandName, newBandInfo, founded)
-  }//klar
+  }
   printAllMusicians() {
     for (let i = 0; i < allMusicians.length; i++) {
       console.log(`${i}. ${allMusicians[i].name}`);
     }
-  }//klar
+  }
   printAllBands() {
     for (let i = 0; i < allBands.length; i++) {
       console.log(`${i}. ${allBands[i].bandName}`);
     }
-  }//klar
+  } 
   showMusicianInfo() {
     this.printAllMusicians()
     console.log(`Skriv in siffran som står framför önskad artist.`)
@@ -69,16 +77,31 @@ export default class Manager {
     const artist = this.musicians[indexArtist]
     const birthday = DateTime.fromISO(artist.birthday)
     const age = birthday.diff(DateTime.now(), "year")
-    console.log(inspect(artist, { depth: 3 }))
-    console.log(Math.abs(age.years.toFixed(0)))
-  }//klar
+    console.log(`
+    Artistens namn: ${artist.name}, 
+    Info om artistens : ${artist.info}, 
+    Födeledag: ${artist.birthday}, ${(Math.abs(age.years.toFixed(0)))} år gammal.
+    Spelar följande instrument: ${artist.instruments}`); 
+    console.log(`
+    Aktiva band: ` + (inspect(artist.joinedBands, { depth: 3 }))) 
+    console.log(`
+    Tidigare band: ` + (inspect(artist.pastBands, { depth: 3 })))  
+
+  }
   showBandInfo() {
     this.printAllBands()
     console.log(`Skriv in siffran som står framför önskat band.`)
     const indexBand = prompt();
     const band = this.bands[indexBand]
-    console.log(inspect(band, { depth: 3 }))
-  }//klar
+    console.log(`
+    Bandetsnamn: ${band.bandName}
+    Info om bandet: ${band.bandInfo}
+    Grundades: ${band.founded}`)
+    console.log(`
+    Aktiva medlemmar: ` + (inspect(band.currentMembers, { depth: 3 })))
+    console.log(`
+    Tidigare medlemmar: ` + (inspect(band.previousMembers, { depth: 3 })))
+  }//Hur flyttar jag medlemmarnas status joinedBands till pastBands?
   removeBand() {
     this.printAllBands();
 
@@ -92,17 +115,17 @@ export default class Manager {
       const disolved = prompt();
       const band = this.bands[index]
       band.disolvedYear = disolved;
+      console.log("Band nr " + index + " har upplöst.")
       retiredBands.push(band)
       this.bands.splice(index, 1)
       this.updateAllBands()
       this.updateRetiredBands()
       this.updateRetiredMusicians()
-      this.updateAllMusicians()()
-
+      this.updateAllMusicians()
     } else {
-      console.log(`Skriv den angivna siffran för att ta bort önskad artist.`);
+      console.log(`Skriv den angivna siffran för att ta bort önskat band.`);
     }
-  }//klar
+  }//Hur flyttar jag bandens status currentMembers till previousMembers?
   removeMusician() {
     this.printAllMusicians();
     console.log("Skriv in siffran för artisten du vill ta bort");
@@ -112,9 +135,15 @@ export default class Manager {
       return
     }
     if (index <= allMusicians.length) {
+      console.log("Artist nr " + index + " har avslutat sin artistkarriär.")
+      const artist = this.musicians[index]
+
+      artist.pastBands = joinedBands;
+      artist.joinedBands = [];
+
       retiredMusicians.push(allMusicians[index])
       allMusicians.splice(index, 1)
-      this.updateAllMusicians()()
+      this.updateAllMusicians()
       this.updateAllBands()
       this.updateRetiredBands()
       this.updateRetiredMusicians()
@@ -122,17 +151,17 @@ export default class Manager {
       console.log(`Försök igen.`);
     }
 
-  }//klar
+  }
   printRetiredMusicians() {
     for (let i = 0; i < retiredMusicians.length; i++) {
-      console.log(retiredMusicians);
+      console.log(inspect(retiredMusicians, { depth: 3 }));
     }
-  }//klar
+  }
   printRetiredBands() {
     for (let i = 0; i < retiredBands.length; i++) {
-      console.log(retiredBands);
+      console.log(inspect(retiredBands, { depth: 3 }));
     }
-  }//klar
+  }
   addArtistToBand() {
     this.printAllMusicians()
     console.log("Skriv in siffran för artisten du vill lägga till i ett band");
@@ -173,66 +202,78 @@ export default class Manager {
     } else {
       console.log(`Skriv den angivna siffran.`);
     }
-  }//klar
+  }
   removeArtistFromBand() {
-    this.printAllBands()
-    console.log("Skriv in siffran för bandet du vill ta bort en artist från");
-    const indexBand = prompt();
-    if (isNaN(Number(indexBand))) {
-      console.log("Skriv den angivna siffran.");
-    }
-    const band = this.bands[indexBand]
-    for (let i = 0; i < band.currentMembers.length; i++) {
-      console.log(`${i}. ${band.currentMembers[i].Name}`);
-    }
-    console.log("Skriv den angivna siffran framför artisten för att ta bort hen från " + band.bandName)
-    const indexArtist = prompt();
-    const artist = this.musicians[indexArtist]
-    if (indexArtist >= 0) {
-      if (indexBand >= 0) {
-        console.log("När lämnade artisten bandet?");
-        const leftYear = prompt();
-        console.log("Vilken roll hade artisten i bandet?")
-        const bandRole = prompt();
-        const previousBandmembers = {
-          Namn: artist.name,
-          Leftband: leftYear,
-          Instrument: bandRole
+    let removeArtistLoop = true;
+    while (removeArtistLoop) {
+      this.printAllBands()
+      console.log("Skriv in siffran för bandet du vill ta bort en artist från");
+      const indexBand = prompt();
+      if (isNaN(Number(indexBand))) {
+        console.log("Skriv den angivna siffran.");
+      } else {
+        const band = this.bands[indexBand]
+        for (let i = 0; i < band.currentMembers.length; i++) {
+          console.log(`${i}. ${band.currentMembers[i].Name}`);
         }
-        const previousBands = {
-          Bandnamn: band.bandName,
-          Leftband: leftYear,
-          Instrument: bandRole
+        console.log("Skriv den angivna siffran framför artisten för att ta bort hen från " + band.bandName)
+        const indexArtist = prompt();
+        if (isNaN(Number(indexBand))) {
+          console.log("Skriv den angivna siffran.");
+        } else {
+          const artist = this.musicians[indexArtist]
+          if (indexArtist >= 0) {
+            if (indexBand >= 0) {
+              removeArtistLoop = false;
+              console.log("När lämnade artisten bandet?");
+              const leftYear = prompt();
+              console.log("Vilken roll hade artisten i bandet?")
+              const bandRole = prompt();
+              const previousBandmembers = {
+                Namn: artist.name,
+                Leftband: leftYear,
+                Instrument: bandRole
+              }
+              const previousBands = {
+                Bandnamn: band.bandName,
+                Leftband: leftYear,
+                Instrument: bandRole
+              }
+              band.currentMembers.splice(indexArtist, 1)
+              band.previousMembers.push(previousBandmembers)
+              artist.joinedBands.splice(indexBand, 1)
+              artist.pastBands.push(previousBands)
+              this.updateAllBands()
+              this.updateAllMusicians()
+            }
+          } else {
+            console.log(`Skriv den angivna siffran.`);
+          }
         }
-        band.currentMembers.splice(artist, 1)
-        band.previousMembers.push(previousBandmembers)
-        artist.joinedBands.splice(band, 1)
-        artist.pastBands.push(previousBands)
-        this.updateAllBands()
-        this.updateAllMusicians()
+
       }
-    } else {
-      console.log(`Skriv den angivna siffran.`);
+
     }
-  }//klar
+
+  }
   updateAllBands() {
     fs.writeFileSync('./allBands.json', JSON.stringify(allBands, null, 2), (err) => {
       if (err) throw err;
       console.log('Sparar ny information');
     });
-  }//klar
+  }
   updateAllMusicians() {
     fs.writeFileSync('./allMusicians.json', JSON.stringify(allMusicians, null, 2), (err) => {
       if (err) throw err;
       console.log('Sparar ny information');
     });
-  }//klar
+  }
   updateRetiredMusicians() {
     fs.writeFileSync('./retiredMusicians.json', JSON.stringify(retiredMusicians, null, 2), (err) => {
       if (err) throw err;
       console.log('Sparar ny information');
     });
-  }//klar
+  }
   updateRetiredBands() {
     fs.writeFileSync('./retiredBands.json', JSON.stringify(retiredBands, null, 2), (err) => {
       if (err) throw err;
@@ -240,30 +281,3 @@ export default class Manager {
     });
   }
 }
-
-
-/*searchArtist() {
-   console.log("Skriv ett artistnamn")
-   const userSearch = prompt();
-   let foundMusician = allMusicians.filter(function (musician) {
-     return musician.name.includes(userSearch)
-   });
-   if (foundMusician.length > 0) {
-     console.log(inspect(foundMusician, { depth: 3 }))
-   } else {
-     console.log("Kunde inte hitta någon artist")
-   }
- }
- searchBand() {
-   console.log("Skriv ett bandnamn")
-   const userSearch = prompt();
-   let foundBand = allBands.filter(function (allBands) {
-     return allBands.bandName.includes(userSearch)
-   });
-   if (foundBand.length > 0) {
-     console.log(inspect(foundBand, {depth: 3}));
-   } else {
-     console.log("Kunde inte hitta något band")
-   }
- }*/
-

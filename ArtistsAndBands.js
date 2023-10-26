@@ -13,12 +13,12 @@ while (meny) {
   2. Kolla information om ett band
   _________________________________________
   3. Lägg till artist
-  4. Ta bort artist
+  4. Pensionera en artist
   _________________________________________
   5. Lägg till ett band
-  6. Ta bort ett band
+  6. Splittra eller pensionera ett band
   _________________________________________
-  7. Tilldela band och medlemmar
+  7. Lägg till medlemmar i band
   8. Ta bort medlem från band
   9. Historik
   _________________________________________
@@ -31,7 +31,7 @@ while (meny) {
       let searchArtistLoop = true;
       while (searchArtistLoop) {
         console.log(`
-        1. Sök efter Artist
+        1. Kolla information om en artist
 
         B. Gå tillbaka till huvudmenyn`);
         const choice = prompt()

@@ -1,30 +1,15 @@
 [
   {
     "bandName": "gurka",
-    "bandInfo": "dansband",
-    "foundedYear": "2010",
-    "disolvedYear": "",
-    "currentMembers": [
-      {
-        "Name": "Hans",
-        "Since": "2010",
-        "Instrument": "bas"
-      }
-    ],
+    "bandInfo": "kjb",
+    "foundedYear": "1995",
+    "currentMembers": [],
     "previousMembers": [
       {
-        "Namn": "Anna",
-        "Leftband": "2011",
-        "Instrument": "piano"
+        "Namn": "Rebecka",
+        "Leftband": "2007",
+        "Instrument": "bas"
       }
     ]
-  },
-  {
-    "bandName": "Kiwi",
-    "bandInfo": "Lund",
-    "foundedYear": "2009",
-    "disolvedYear": "",
-    "currentMembers": [],
-    "previousMembers": []
   }
 ]
